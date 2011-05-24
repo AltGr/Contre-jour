@@ -1,0 +1,25 @@
+Contre-jour: a toy image gallery application for OPA
+----------------------------------------------------
+
+Author: Louis Gesbert
+
+This program is distributed under the terms of the AGPL license.
+
+Features:
+- thumbnails, reduced-size view, full-size view
+- reduced images computed on need and cached
+
+Non-features:
+- *really* unsafe, don't ever use on a public server (unprotected directory accesses !)
+- image manipulation done by calling the convert program, because I was too lazy to bind an image library
+- image manipulations are blocking
+
+Dependencies:
+- the OPA compiler, version S3.3 or newer
+- the convert program, from package ImageMagick
+
+Compilation and usage:
+- run make in the project directory
+- cd to a directory containing jpeg images in sub-directories; the program will enable you to browse images in these sub-directories.
+- run <project-dir>/contrejour.exe
+- connect your browser to http://localhost:8080/<sub-directory containing images>

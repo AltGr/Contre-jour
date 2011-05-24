@@ -1,0 +1,5 @@
+_build
+_tracks
+*.log
+*.opp
+thumbcache
