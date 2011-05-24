@@ -8,11 +8,9 @@ imgwidth=800
 
 Jpeg = {{
   thumb(file) =
-    bp = %%Jpeg.thumb%%
-    { jpg = bp(file, thumbsize, thumbsize) }
+    { jpg = (%%Jpeg.thumb%%)(file, thumbsize, thumbsize) }
   resize(file,w,h) =
-    bp = %%Jpeg.resize%%
-    { jpg = bp(file,w,h) }
+    { jpg = (%%Jpeg.resize%%)(file,w,h) }
 }}
 
 get_image_files(dir) =
@@ -21,10 +19,10 @@ get_image_files(dir) =
   Option.map(List.sort,lst)
 
 disp(img) =
-  [ #imgdiv <- <a href="/full/{img}"><img class=medium src="/medium/{img}" /></a> ]
+  [ #imgdiv <- <a href="/full/{Uri.encode_string(img)}"><img class=medium src="/medium/{img}" /></a> ]
 
 image_elt(img) =
-  <img class=thumb src="/thumb/{img}" onclick={_ -> Dom.transform(disp(img))} />
+  <img class=thumb src="/thumb/{Uri.encode_string(img)}" onclick={_ -> Dom.transform(disp(img))} />
 
 page(dir) =
   <div id=#main>
@@ -59,13 +57,15 @@ cache(dbpath,compute) =
       img
 
 server =
+  dirname = parser f=([a-zA-Z0-9][-a-zA-Z0-9._ ]*) -> Text.to_string(f)
   ext_jpg = parser ext=(".jpg"|".jpeg"|".JPG") -> ext
+  jpg = parser f=(dirname "/" [a-zA-Z0-9] (!ext_jpg [-a-zA-Z0-9._ ])* ext_jpg) -> Text.to_string(f)
   simple_server(
     parser
-      | "/full/" jpg=((!ext_jpg .)+ ext_jpg) -> fullimage(Text.to_string(jpg))
-      | "/medium/" jpg=((!ext_jpg .)+ ext_jpg) -> medimage(Text.to_string(jpg))
-      | "/thumb/" jpg=((!ext_jpg .)+ ext_jpg) -> thumb(Text.to_string(jpg))
-      | "/" dir=(.+) -> html("Contre-jour: a simple gallery in OPA ({dir})", page(Text.to_string(dir)))
+      | "/full/" ~jpg -> fullimage(jpg)
+      | "/medium/" ~jpg -> medimage(jpg)
+      | "/thumb/" ~jpg -> thumb(jpg)
+      | "/" ~dirname -> html("Contre-jour: a simple gallery in OPA ({dirname})", page(dirname))
   )
 
 css = css

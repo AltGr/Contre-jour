@@ -10,8 +10,8 @@ Features:
 - reduced images computed on need and cached
 
 Non-features:
-- *really* unsafe, don't ever use on a public server (unprotected directory accesses !)
 - image manipulation done by calling the convert program, because I was too lazy to bind an image library
+- using "convert" of course circumvents OPA security checks and may make the application vulnerable
 - image manipulations are blocking
 
 Dependencies:
