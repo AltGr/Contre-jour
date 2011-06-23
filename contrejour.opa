@@ -3,6 +3,8 @@
 //
 // written by Louis Gesbert
 
+import stdlib.io
+
 thumbsize=200
 imgwidth=800
 
@@ -36,7 +38,7 @@ page(dir) =
   }</div>
 
 fullimage(jpg) =
-  Resource.image({ jpg = file_content(jpg) })
+  Resource.image({ jpg = File.content(jpg) })
 medimage(jpg) =
   Resource.image(cache(@/medium[jpg], -> Jpeg.resize(jpg, imgwidth, imgwidth)))
 thumb(jpg) =
