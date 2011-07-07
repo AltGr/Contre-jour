@@ -1,7 +1,7 @@
 all: contrejour.exe
 
 contrejour.exe: jpeg.opp contrejour.opa
-	opa $^
+	opa $(OPAOPT) $^
 
 jpeg.opp: jpeg.ml
 	opa-plugin-builder $^ -o $@
