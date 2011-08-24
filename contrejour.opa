@@ -3,7 +3,7 @@
 //
 // written by Louis Gesbert
 
-import stdlib.io
+import stdlib.io.file
 
 thumbsize=200
 imgwidth=800
